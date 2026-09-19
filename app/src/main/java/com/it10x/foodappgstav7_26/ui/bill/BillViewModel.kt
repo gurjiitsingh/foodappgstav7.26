@@ -1318,9 +1318,7 @@ class BillViewModel(
             val inputPhone = phone.trim()
             val inputName = name.trim().ifBlank { "Customer" }
             val kotItems = kotItemDao.getDoneItemsForTableOnce(tableId)
-
-
-               if (kotItems.isEmpty()) {
+            if (kotItems.isEmpty()) {
                     sendEvent("No items to bill")
                     return@launch
                 }

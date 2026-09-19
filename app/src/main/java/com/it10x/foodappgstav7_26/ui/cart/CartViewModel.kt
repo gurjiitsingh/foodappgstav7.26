@@ -131,6 +131,7 @@ class CartViewModel(
                 productId = product.id,
                 name = toTitleCase(product.name),
                 basePrice = price,
+                discountEligible = product.discountEligible,
                 finalPrice = finalPrice,
                 modifierTotal = modifierTotal,
                 productMode = product.productMode  ?: "raw_stock",

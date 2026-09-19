@@ -347,6 +347,7 @@ class KitchenViewModel(
                     parentId = cart.parentId,
                     isVariant = cart.isVariant,
                     basePrice = cart.basePrice,
+                    discountEligible = cart.discountEligible,
                     finalPrice = finalPrice,
                     modifierTotal = modifierTotal,
                     quantity = cart.quantity,
