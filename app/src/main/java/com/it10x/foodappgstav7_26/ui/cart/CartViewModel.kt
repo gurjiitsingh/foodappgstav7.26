@@ -92,6 +92,7 @@ class CartViewModel(
     ) {
 
 
+
         val modifierTotal = ModifierJsonHelper
             .fromJson(modifiersJson)
             .sumOf { group ->

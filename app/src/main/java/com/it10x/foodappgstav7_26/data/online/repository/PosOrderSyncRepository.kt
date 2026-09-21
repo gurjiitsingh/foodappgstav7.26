@@ -78,6 +78,21 @@ class PosOrderSyncRepository(
             val discount = order.discountTotal ?: 0.0
             val tax = order.taxTotal ?: 0.0
 
+            Log.d(
+                "ORDER_TOTAL_DEBUG",
+                """
+    Order ID       = ${order.id}
+    SrNo           = ${order.srno}
+    itemTotal      = ${order.itemTotal}
+    taxableAmount  = ${order.taxableAmount}
+    taxTotal       = ${order.taxTotal}
+    discountTotal  = ${order.discountTotal}
+    grandTotal     = ${order.grandTotal}
+    roundOff       = ${order.roundOff}
+    dueAmount      = ${order.dueAmount}
+    """.trimIndent()
+            )
+
             val payments = paymentRepository.getPaymentsByOrderId(order.id)
 
             var cash = 0.0
@@ -96,14 +111,27 @@ class PosOrderSyncRepository(
                     }
                 }
 
+
+
             val credit = order.dueAmount ?: 0.0
 
-
+            Log.d(
+                "ORDER_TOTAL_DEBUG",
+                """
+    FINAL CALCULATION
+    Order ID = ${order.id}
+    Sales    = $sales
+    Cash     = $cash
+    UPI      = $upi
+    Card     = $card
+    Wallet   = $wallet
+    Credit   = $credit
+    Tax      = $tax
+    """.trimIndent()
+            )
 
             val totals = dailyMap.getOrPut(orderDate) { DailyTotals() }
 
-            totals.sales += sales.round2()
-            totals.discount += kotlin.math.abs(discount)
             totals.sales += sales.round2()
             totals.discount += kotlin.math.abs(discount).round2()
             totals.tax += tax.round2()

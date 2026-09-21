@@ -20,6 +20,7 @@ data class WaiterOrderItem(
     val categoryName: String = "",
     val quantity: Int = 0,
     val price: Double = 0.0,
+    val discountEligible: Boolean = true,
     val taxRate: Double = 0.0,
     val tableNo: String = "",
     val tableName: String,

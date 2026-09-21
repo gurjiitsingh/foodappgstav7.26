@@ -12,6 +12,7 @@ class WaiterKitchenRepository(
     private val firestore: FirebaseFirestore
 ) {
 
+    //WAITERTOFIRESTORE
     suspend fun sendOrderToFireStore(
         cartList: List<PosCartEntity>,
         tableNo: String,
@@ -62,6 +63,7 @@ class WaiterKitchenRepository(
                     categoryId = cartItem.categoryId,
                     categoryName = cartItem.categoryName,
                     quantity = cartItem.quantity,
+                    discountEligible = cartItem.discountEligible,
                     price = cartItem.basePrice,
                     taxRate = cartItem.taxRate,
                     tableNo = tableNo,

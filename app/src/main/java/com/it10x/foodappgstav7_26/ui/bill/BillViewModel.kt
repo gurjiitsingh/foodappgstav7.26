@@ -1067,11 +1067,22 @@ class BillViewModel(
 
 
                 val validationItemSubtotalPaise = validationKotItems.sumOf { item ->
-                    MoneyUtils.toPaise(item.basePrice) * item.quantity
+
+                    val modifierPrice =
+                        ModifierJsonHelper.fromJson(item.modifiersJson)
+                            .flatMap { group -> group.items }
+                            .sumOf { modifier -> modifier.price }
+
+                    val basePlusModifier =
+                        item.basePrice + modifierPrice
+
+                    MoneyUtils.toPaise(basePlusModifier) * item.quantity
                 }
 
                 val firstTotalQuantity = kotItems.sumOf { it.quantity }
                 val validationTotalQuantity = validationKotItems.sumOf { it.quantity }
+
+
 
                 if (
                     itemSubtotalPaise != validationItemSubtotalPaise ||
@@ -1362,7 +1373,16 @@ class BillViewModel(
 
 
                 val validationItemSubtotalPaise = validationKotItems.sumOf { item ->
-                    MoneyUtils.toPaise(item.basePrice) * item.quantity
+
+                    val modifierPrice =
+                        ModifierJsonHelper.fromJson(item.modifiersJson)
+                            .flatMap { group -> group.items }
+                            .sumOf { modifier -> modifier.price }
+
+                    val basePlusModifier =
+                        item.basePrice + modifierPrice
+
+                    MoneyUtils.toPaise(basePlusModifier) * item.quantity
                 }
 
                 val firstTotalQuantity = kotItems.sumOf { it.quantity }
@@ -1672,13 +1692,24 @@ class BillViewModel(
                         // 2. VALIDATE CURRENT KOT DATA
                         // ==========================================
 
-                        val currentItemSubtotalPaise = currentKotItems.sumOf { item ->
-                            MoneyUtils.toPaise(item.basePrice) * item.quantity
-                        }
+                        val currentItemSubtotalPaise =
+                            currentKotItems.sumOf { item ->
 
-                        val currentTotalQuantity = currentKotItems.sumOf {
-                            it.quantity
-                        }
+                                val modifierPrice =
+                                    ModifierJsonHelper.fromJson(item.modifiersJson)
+                                        .flatMap { group -> group.items }
+                                        .sumOf { modifier -> modifier.price }
+
+                                val basePlusModifier =
+                                    item.basePrice + modifierPrice
+
+                                MoneyUtils.toPaise(basePlusModifier) * item.quantity
+                            }
+
+                        val currentTotalQuantity =
+                            currentKotItems.sumOf {
+                                it.quantity
+                            }
 
                         if (
                             currentItemSubtotalPaise != itemSubtotalPaise ||

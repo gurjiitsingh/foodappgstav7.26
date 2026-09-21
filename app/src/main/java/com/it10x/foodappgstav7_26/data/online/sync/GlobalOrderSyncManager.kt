@@ -305,7 +305,7 @@ class GlobalOrderSyncManager(
 
                                         basePrice =
                                             itemDoc.getDouble("price") ?: 0.0,
-
+                                        discountEligible = itemDoc.getBoolean("discountEligible") ?: true,
                                         modifierTotal = 0.0,
 
                                         quantity =

@@ -25,18 +25,18 @@ object BillCalculator {
         // =========================
         val itemSubtotalPaise = items.sumOf {
 
-//            val modifierPrice =
-//                ModifierJsonHelper.fromJson(it.modifiersJson)
-//                    .flatMap { g -> g.items }
-//                    .sumOf { m -> m.price }
+            val modifierPrice =
+                ModifierJsonHelper.fromJson(it.modifiersJson)
+                    .flatMap { g -> g.items }
+                    .sumOf { m -> m.price }
 
-//                        Log.d(
-//                "POS_MODIFIER",
-//                "ITMENAME=${it.name}, MODIFIER PRICE=${modifierPrice} ,TableId=${it.tableNo} "
-//            )
+                        Log.d(
+                "POS_MODIFIER",
+                "ITMENAME=${it.name}, MODIFIER PRICE=${modifierPrice} ,TableId=${it.tableNo} "
+            )
 
-              val base = it.basePrice
-           // val base = it.basePrice + modifierPrice
+            //  val base = it.basePrice
+            val base = it.basePrice + modifierPrice
             MoneyUtils.toPaise(base) * it.quantity
 
         }
@@ -49,7 +49,14 @@ object BillCalculator {
 
         items.forEach { item ->
 
-            val basePaise = MoneyUtils.toPaise(item.basePrice)
+            val modifierPrice =
+                ModifierJsonHelper.fromJson(item.modifiersJson)
+                    .flatMap { g -> g.items }
+                    .sumOf { m -> m.price }
+
+
+val basePrice_modi = item.basePrice + modifierPrice
+            val basePaise = MoneyUtils.toPaise(basePrice_modi)
 
             val taxType =
                 effectiveTaxType(
@@ -88,8 +95,16 @@ object BillCalculator {
         // Calculate amount eligible for percentage discount
         val discountEligibleSubtotalPaise =
             items.sumOf { item ->
+
+                val modifierPrice =
+                    ModifierJsonHelper.fromJson(item.modifiersJson)
+                        .flatMap { g -> g.items }
+                        .sumOf { m -> m.price }
+
+
+                val basePrice_modi = item.basePrice + modifierPrice
                 if (item.discountEligible) {
-                    MoneyUtils.toPaise(item.basePrice) * item.quantity
+                    MoneyUtils.toPaise(basePrice_modi) * item.quantity
                 } else {
                     0L
                 }
